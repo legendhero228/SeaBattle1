@@ -12,41 +12,81 @@ type Ship struct {
 }
 
 func AddShip(ship Ship) {
-
+	canPlace := true
 	switch ship.position {
 	case "Право":
-		for i := 0; i < ship.size; i++ {
-			if ship.boardSize >= ship.size-ship.Y {
-				ship.arr[ship.Y][ship.X+i] = "+"
-			} else {
-				fmt.Println("НЕ ВЛАЗИТ ЕБАЛАЙ")
+		if ship.X+ship.size > ship.boardSize {
+			canPlace = false
+		} else {
+			for i := 0; i < ship.size; i++ {
+				if ship.arr[ship.Y][ship.X+i] == "+" {
+					canPlace = false
+					break
+				}
 			}
 		}
-	case "Лево":
-		for i := 0; i < ship.size; i++ {
-			if ship.boardSize >= ship.size+ship.Y {
-				ship.arr[ship.Y][ship.X-i] = "+"
-			} else {
-				fmt.Println("НЕ ВЛАЗИТ ЕБАЛАЙ")
+		if canPlace {
+			for i := 0; i < ship.size; i++ {
+				ship.arr[ship.Y][ship.X+i] = "+"
 			}
+		} else {
+			fmt.Println("Не влазит ебалай")
+		}
+	case "Лево":
+		if ship.X-ship.size <= 0 {
+			canPlace = false
+		} else {
+			for i := 0; i < ship.size; i++ {
+				if ship.arr[ship.Y][ship.X-i] == "+" {
+					canPlace = false
+					break
+				}
+			}
+		}
+		if canPlace {
+			for i := 0; i < ship.size; i++ {
+				ship.arr[ship.Y][ship.X-i] = "+"
+			}
+		} else {
+			fmt.Println("Не влазит ебалай")
 		}
 
 	case "Вверх":
-		for i := 0; i < ship.size; i++ {
-			if ship.boardSize-ship.X < ship.size+ship.X {
-				ship.arr[ship.Y-i][ship.X] = "+"
-			} else {
-				fmt.Println("НЕ ВЛАЗИТ ЕБАЛАЙ")
+		if ship.Y+ship.size > ship.boardSize {
+			canPlace = false
+		} else {
+			for i := 0; i < ship.size; i++ {
+				if ship.arr[ship.Y+i][ship.X] == "+" {
+					canPlace = false
+					break
+				}
 			}
+		}
+		if canPlace {
+			for i := 0; i < ship.size; i++ {
+				ship.arr[ship.Y+i][ship.X] = "+"
+			}
+		} else {
+			fmt.Println("Не влазит ебалай")
 		}
 
 	case "Вниз":
-		for i := 0; i < ship.size; i++ {
-			if ship.boardSize >= ship.size+ship.Y {
-				ship.arr[ship.Y+i][ship.X] = "+"
-			} else {
-				fmt.Println("НЕ ВЛАЗИТ ЕБАЛАЙ")
+		if ship.Y-ship.size > ship.boardSize {
+			canPlace = false
+		} else {
+			for i := 0; i < ship.size; i++ {
+				if ship.arr[ship.Y-i][ship.X] == "+" {
+					canPlace = false
+					break
+				}
 			}
+		}
+		if canPlace {
+			for i := 0; i < ship.size; i++ {
+				ship.arr[ship.Y-i][ship.X] = "+"
+			}
+		} else {
+			fmt.Println("Не влазит ебалай")
 		}
 
 	default:
@@ -61,8 +101,11 @@ func AddShip(ship Ship) {
 	}
 	fmt.Println(" ")
 
-	//return ship
+	//fmt.Println("Тут уже есть корабль. Выберите новые координаты")
+
 }
+
+//return ship
 
 func attack(ship *Ship) {
 	fmt.Println("Совершите выстрел. Введите координаты")
