@@ -131,7 +131,7 @@ func ezField() {
 	playerShoot := true
 	counterBot := 0
 	counterPlayer := 0
-	allShip := 5
+	allShip := 20
 
 	for {
 		if playerShoot {
