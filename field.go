@@ -129,28 +129,35 @@ func ezField() {
 		}
 	}
 	playerShoot := true
+	botShoot := false
 	counterBot := 0
 	counterPlayer := 0
-	allShip := 20
+	allShip := 21
 
 	for {
 		if playerShoot {
-			x = rand.Intn(10)
-			y = rand.Intn(10)
+			x = rand.Intn(11)
+			y = rand.Intn(11)
 			playerShoot, counterPlayer = attack(fieldBot1, x, y, counterPlayer)
-		} else {
-			x = rand.Intn(10)
-			y = rand.Intn(10)
-			playerShoot, counterBot = attack(fieldPlayer, x, y, counterBot)
+			botShoot = !playerShoot
 		}
-		if counterPlayer >= allShip {
+		if botShoot {
+			x = rand.Intn(11)
+			y = rand.Intn(11)
+			botShoot, counterBot = attack(fieldPlayer, x, y, counterBot)
+			playerShoot = !botShoot
+		}
+
+		if counterPlayer == allShip {
 			fmt.Println("Вы победили")
 			break
 		}
-		if counterBot >= allShip {
+		if counterBot == allShip {
 			fmt.Println("Бот выиграл")
 			break
 		}
+		println("Кантер бот", counterBot, "Каунтер игрок", counterPlayer)
+		//time.Sleep(100 * time.Millisecond)
 	}
 	//return
 
