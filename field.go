@@ -9,7 +9,7 @@ func createField() *[11][11]string {
 	var arr [11][11]string
 	for i := range arr {
 		for j := range arr[i] {
-			arr[i][j] = "О"
+			arr[i][j] = "O"
 		}
 	}
 	return &arr
@@ -102,7 +102,8 @@ func ezField() {
 	player = Ship{size, x, y}
 	AddShip(player, position, boardSize, fieldPlayer)
 
-	attack(fieldPlayer, x, y)
+	fmt.Println("Поле бота ")
+
 	shipMap := map[int]int{
 		4: 1,
 		3: 2,
@@ -127,7 +128,30 @@ func ezField() {
 			}
 		}
 	}
+	playerShoot := true
+	counterBot := 0
+	counterPlayer := 0
+	allShip := 5
 
-	return
+	for {
+		if playerShoot {
+			x = rand.Intn(10)
+			y = rand.Intn(10)
+			playerShoot, counterPlayer = attack(fieldBot1, x, y, counterPlayer)
+		} else {
+			x = rand.Intn(10)
+			y = rand.Intn(10)
+			playerShoot, counterBot = attack(fieldPlayer, x, y, counterBot)
+		}
+		if counterPlayer >= allShip {
+			fmt.Println("Вы победили")
+			break
+		}
+		if counterBot >= allShip {
+			fmt.Println("Бот выиграл")
+			break
+		}
+	}
+	//return
 
 }

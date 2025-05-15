@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type Ship struct {
 	size int
@@ -71,7 +73,7 @@ func AddShip(ship Ship, position string, boardSize int, arr *[11][11]string) boo
 		}
 
 	case "Вниз":
-		if ship.Y-ship.size > boardSize {
+		if ship.Y-ship.size+1 < 0 {
 			canPlace = false
 		} else {
 			for i := 0; i < ship.size; i++ {
@@ -107,32 +109,32 @@ func AddShip(ship Ship, position string, boardSize int, arr *[11][11]string) boo
 
 //return ship
 
-func attack(arr *[11][11]string, x int, y int) {
-	fmt.Println("Совершите выстрел. Введите координаты")
-	// тут типа скан
+func attack(arr *[11][11]string, x int, y int, counter int) (bool, int) {
+	//fmt.Println("Совершите выстрел. Введите координаты")
+	switch arr[y][x] {
+	case "+":
+		fmt.Println("Попал. Сделай еще один выстрел")
+		arr[y][x] = "X"
+		// тут еще скан
+		counter++
+		return true, counter
 
-	for {
-		switch arr[y][x] {
-		case "+":
-			fmt.Println("Попал. Сделай еще один выстрел")
-			arr[y][x] = "X"
-			// тут еще скан
-			x = 3
-			y = 1
+	case "O":
+		fmt.Println("Ха-ха-ха долбаеб не попал")
+		arr[y][x] = "."
+		return false, counter
 
-		case "O":
-			fmt.Println("Ха-ха-ха долбаеб не попал")
-			arr[y][x] = "."
-			return
+	case "X":
+		fmt.Println("Ты уже стрелял сюда")
+		return false, counter
 
-		case "X":
-			fmt.Println("Ты уже стрелял сюда")
-			return
+	case ".":
+		fmt.Println("Ты уже стрелял сюда")
+		return false, counter
 
-		case ".":
-			fmt.Println("Ты уже стрелял сюда")
-			return
-		}
+	default:
+		fmt.Println("Че то не то")
+		return false, counter
 	}
-
+	//return false, counter
 }
