@@ -1,21 +1,23 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math/rand"
+)
 
-func createField(arr *[11][11]string) {
+func createField() *[11][11]string {
+	var arr [11][11]string
 	for i := range arr {
 		for j := range arr[i] {
-
 			arr[i][j] = "О"
-
 		}
 	}
+	return &arr
 }
+
 func ezField() {
-	fieldPlayer := [11][11]string{}
-	createField(&fieldPlayer)
-	fieldBot1 := [11][11]string{}
-	createField(&fieldBot1)
+	fieldPlayer := createField()
+	fieldBot1 := createField()
 
 	boardSize := 11
 	fmt.Println("Выберите координаты расположения и размер вашего корабля (Формат ввода X Y Размер)")
@@ -35,80 +37,96 @@ func ezField() {
 	3 на 2 клетки
 	4 на 1 клетку*/
 
-	player := Ship{size, x, y, position, boardSize, &fieldPlayer}
-	AddShip(player)
+	player := Ship{size, x, y}
+	AddShip(player, position, boardSize, fieldPlayer)
 
 	x = 1
 	y = 3
 	size = 3
 	position = "Вниз"
-	player = Ship{size, x, y, position, boardSize, &fieldPlayer}
-	AddShip(player)
+	player = Ship{size, x, y}
+	AddShip(player, position, boardSize, fieldPlayer)
 
 	x = 7
 	y = 7
 	size = 3
 	position = "Лево"
-	player = Ship{size, x, y, position, boardSize, &fieldPlayer}
-	AddShip(player)
+	player = Ship{size, x, y}
+	AddShip(player, position, boardSize, fieldPlayer)
 
 	x = 6
 	y = 1
 	size = 2
 	position = "Право"
-	player = Ship{size, x, y, position, boardSize, &fieldPlayer}
-	AddShip(player)
+	player = Ship{size, x, y}
+	AddShip(player, position, boardSize, fieldPlayer)
 
 	x = 5
 	y = 3
 	size = 2
 	position = "Вниз"
-	player = Ship{size, x, y, position, boardSize, &fieldPlayer}
-	AddShip(player)
+	player = Ship{size, x, y}
+	AddShip(player, position, boardSize, fieldPlayer)
 
 	x = 10
 	y = 3
 	size = 2
 	position = "Вниз"
-	player = Ship{size, x, y, position, boardSize, &fieldPlayer}
-	AddShip(player)
+	player = Ship{size, x, y}
+	AddShip(player, position, boardSize, fieldPlayer)
 
 	x = 10
 	y = 10
 	size = 1
 	position = "Вниз"
-	player = Ship{size, x, y, position, boardSize, &fieldPlayer}
-	AddShip(player)
+	player = Ship{size, x, y}
+	AddShip(player, position, boardSize, fieldPlayer)
 
 	x = 7
 	y = 10
 	size = 1
 	position = "Вниз"
-	player = Ship{size, x, y, position, boardSize, &fieldPlayer}
-	AddShip(player)
+	player = Ship{size, x, y}
+	AddShip(player, position, boardSize, fieldPlayer)
 
 	x = 4
 	y = 6
 	size = 1
 	position = "Вниз"
-	player = Ship{size, x, y, position, boardSize, &fieldPlayer}
-	AddShip(player)
+	player = Ship{size, x, y}
+	AddShip(player, position, boardSize, fieldPlayer)
 
 	x = 8
 	y = 4
 	size = 1
-	position = "Вниз"
-	player = Ship{size, x, y, position, boardSize, &fieldPlayer}
+	player = Ship{size, x, y}
+	AddShip(player, position, boardSize, fieldPlayer)
 
-	AddShip(player)
-	attack(&player)
+	attack(fieldPlayer, x, y)
+	shipMap := map[int]int{
+		4: 1,
+		3: 2,
+		2: 3,
+		1: 4,
+	}
+	arrPosition := [4]string{"Лево", "Право", "Вниз", "Вверх"}
+	for size, count := range shipMap {
+		for i := 0; i < count; {
+			x = rand.Intn(10)
+			y = rand.Intn(10)
+			j := rand.Intn(4)
+			position = arrPosition[j]
 
-	bot1 := Ship{size, x, y, position, boardSize, &fieldBot1}
-	x = 1
-	y = 5
-	size = 3
-	position = "Вниз"
-	AddShip(bot1)
+			bot1 := Ship{size, x, y}
+
+			temp := AddShip(bot1, position, boardSize, fieldBot1)
+			if temp {
+				i++
+			} else {
+				fmt.Println("БОТ ТВОРИТ ХУЙНЮ")
+			}
+		}
+	}
 
 	return
 
