@@ -32,7 +32,7 @@ func AddShip(ship Ship, position string, boardSize int, arr *[11][11]string) boo
 				arr[ship.Y][ship.X+i] = "+"
 			}
 		} else {
-			fmt.Println("Не влазит ебалай")
+			//fmt.Println("Не влазит ебалай")
 		}
 	case "Лево":
 		if ship.X-ship.size <= 0 {
@@ -93,47 +93,37 @@ func AddShip(ship Ship, position string, boardSize int, arr *[11][11]string) boo
 
 	default:
 		fmt.Println("Хуйню не неси")
+		return false
 	}
 
-	for i := range arr {
-		for j := range arr[i] {
-			fmt.Printf(arr[i][j])
-		}
-		fmt.Printf("\n")
-	}
-	fmt.Println(" ")
-
-	//fmt.Println("Тут уже есть корабль. Выберите новые координаты")
 	return canPlace
 }
 
-//return ship
+func attack(arr *[11][11]string, x int, y int, counter int, name string) (bool, int) {
 
-func attack(arr *[11][11]string, x int, y int, counter int) (bool, int) {
-	//fmt.Println("Совершите выстрел. Введите координаты")
 	switch arr[y][x] {
 	case "+":
-		fmt.Println("Попал. Сделай еще один выстрел")
+		fmt.Printf("%s, попал. Сделай еще один выстрел\n", name)
 		arr[y][x] = "X"
-		// тут еще скан
 		counter++
+
 		return true, counter
 
 	case "O":
-		fmt.Println("Ха-ха-ха долбаеб не попал")
+		fmt.Printf("Ха-ха-ха %s не попал\n", name)
 		arr[y][x] = "."
 		return false, counter
 
 	case "X":
-		fmt.Println("Ты уже стрелял сюда")
+		fmt.Printf("%s, ты уже стрелял сюда\n", name)
 		return false, counter
 
 	case ".":
-		fmt.Println("Ты уже стрелял сюда")
+		fmt.Printf("%s, ты уже стрелял сюда\n", name)
 		return false, counter
 
 	default:
-		fmt.Println("Че то не то")
+		fmt.Printf("%s, че то не то\n", name)
 		return false, counter
 	}
 	//return false, counter
